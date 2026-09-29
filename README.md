@@ -13,3 +13,25 @@ cd DevOps
 python -m venv .DevOps && .DevOps/bin/activate
 pip install -r requirements.txt
 ```
+
+## Nutzung
+
+```
+[Beispielbefehl zum Starten]
+```
+
+Aktuell ist noch kein Befehl fürs aufstarten der Applikation bekannt, da die Applikation noch nicht bestehend ist.
+
+## Projektstruktur
+
+```
+[projekt]/
+├── src/            [Quellcode]
+├── README.md
+├── .gitignore
+└── LICENSE
+```
+
+## Lizenz
+
+Veröffentlicht unter der MIT-Lizenz (Datei `LICENSE` im Projekt-Repository).
