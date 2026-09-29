@@ -1,0 +1,20 @@
+1) pwd
+2) cd ~
+3) mkdir uebung-ha
+4) touch uebung-ha/liste.txt
+5) ls -la uebung-ha
+6) echo "Hallo DevOps" > uebung-ha/liste.txt
+7) echo "Zweite Zeile" >> uebung-ha/liste.txt
+8) cat uebung-ha/liste.txt
+9) cp uebung-ha/liste.txt uebung-ha/liste-backup.txt
+10) mv uebung-ha/liste-backup.txt uebung-ha/sicherung.txt
+11) wc -l uebung-ha/liste.txt
+12) find /etc -maxdepth 1 -name "*.conf" 2>/dev/null
+13) grep $(whoami) /etc/passwd
+14) head -n 5 /etc/passwd
+15) tail -n 3 /etc/passwd
+16) man chmod
+17) chmod 600 uebung-ha/sicherung.txt
+18) echo '#!/bin/bash' > hallo.sh && echo 'echo "Hallo"' >> hallo.sh && chmod +x hallo.sh && ./hallo.sh
+19) ls -l uebung-ha/sicherung.txt
+20) cat /etc/passwd | wc -l
