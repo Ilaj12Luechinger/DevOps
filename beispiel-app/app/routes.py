@@ -63,6 +63,21 @@ def get_task(task_id: int):
         return jsonify(error="task not found"), 404
     return jsonify(task.to_dict())
 
+
+@bp.get("/api/tasks/status")
+def get_task_stats():
+    tasks = _repo().list()
+    totalTasks = len(tasks)
+    doneTasks = len([t for t in tasks if t.done])
+    openTasks = len([t for t in tasks if not t.done])
+    outDict = {
+        'total': totalTasks,
+        'done': doneTasks,
+        'open': openTasks,
+    }
+    return jsonify(outDict)
+
+
 @bp.put("/api/tasks/<int:task_id>")
 def update_task(task_id: int):
     payload = request.get_json(silent=True) or {}
