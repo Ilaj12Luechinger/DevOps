@@ -64,7 +64,7 @@ def get_task(task_id: int):
     return jsonify(task.to_dict())
 
 
-@bp.get("/api/tasks/status")
+@bp.get("/api/tasks/stats")
 def get_task_stats():
     tasks = _repo().list()
     totalTasks = len(tasks)
