@@ -1,0 +1,15 @@
+Task Creation Requests
+curl -X POST http://localhost:8000/api/tasks -H "Content-Type: application/json" -d '{"title":"erste Aufgabe"}'
+curl -X POST http://localhost:8000/api/tasks -H "Content-Type: application/json" -d '{"title":"zweite Aufgabe"}'
+curl -X PUT  http://localhost:8000/api/tasks/1 -H "Content-Type: application/json" -d '{"done":true}'
+
+Task Creation Outputs
+{"done":false,"id":1,"title":"erste Aufgabe"}
+{"done":false,"id":2,"title":"zweite Aufgabe"}
+{"done":true,"id":1,"title":"erste Aufgabe"}
+
+Stats Request:
+curl http://localhost:8000/api/tasks/stats
+
+Stats Output:
+{"done":1,"open":1,"total":2}
