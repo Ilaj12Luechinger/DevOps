@@ -4,8 +4,8 @@ def test_status_zero_tasks(client):
     assert response.get_json()["total"] == 0
     assert response.get_json()["done"] == 0
     assert response.get_json()["open"] == 0
-   
-   
+
+
 def test_status_multiple_tasks_mixed(client):
     client.post("/api/tasks", json={"title": "First Task"})
     client.post("/api/tasks", json={"title": "Second Task"})
@@ -16,7 +16,7 @@ def test_status_multiple_tasks_mixed(client):
     assert response.get_json()["total"] == 3
     assert response.get_json()["done"] == 1
     assert response.get_json()["open"] == 2
-    
+
 
 def test_status_all_done(client):
     client.post("/api/tasks", json={"title": "First Task"})
