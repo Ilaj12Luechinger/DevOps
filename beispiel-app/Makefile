@@ -17,7 +17,7 @@ test: ## Führt die Testsuite aus
 	pytest
 
 cov: ## Testsuite mit Abdeckungsbericht
-	pytest --cov=app --cov-report=term-missing
+	pytest --cov=app  --cov-report=xml --cov-report=term-missing
 
 lint: ## Prüft Stil und Importsortierung
 	ruff check .
