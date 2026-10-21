@@ -71,9 +71,9 @@ def get_task_stats():
     doneTasks = len([t for t in tasks if t.done])
     openTasks = len([t for t in tasks if not t.done])
     outDict = {
-        'total': totalTasks,
-        'done': doneTasks,
-        'open': openTasks,
+        "total": totalTasks,
+        "done": doneTasks,
+        "open": openTasks,
     }
     return jsonify(outDict)
 
