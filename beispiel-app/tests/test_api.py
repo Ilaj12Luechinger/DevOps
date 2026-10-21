@@ -8,7 +8,7 @@ def test_create_task_returns_201_and_body(client):
     response = client.post("/api/tasks", json={"title": "Write the report"})
     assert response.status_code == 201
     body = response.get_json()
-    assert body["title"] == 'Write the report'
+    assert body["title"] == "Write the report"
     assert body["done"] is False
     assert isinstance(body["id"], int)
 
