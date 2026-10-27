@@ -75,4 +75,4 @@ jobs:
             exit 1
           fi
           chmod +x scripts/smoke-test.sh
-          scrips/smoke-test.sh "${APP_URL}"
+          scripts/smoke-test.sh "${APP_URL}"
