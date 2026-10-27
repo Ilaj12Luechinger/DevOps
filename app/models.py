@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+import numbers
 from dataclasses import asdict, dataclass, field
 from typing import Any
+
+from exceptions import ValidationError
 
 
 @dataclass
@@ -51,6 +54,30 @@ class Student:
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
+
+
+MAX_TITLE_LENGTH = 255
+
+
+def validate_string(raw: Any):
+    if not isinstance(raw, str):
+        raise ValidationError("title must be a string")
+    title = raw.strip()
+    if not title:
+        raise ValidationError("title must not be empty")
+    if len(title) > MAX_TITLE_LENGTH:
+        raise ValidationError(f"title must be at most {MAX_TITLE_LENGTH} characters")
+    return title
+
+
+def validate_mark(raw: Any):
+    if not isinstance(raw, numbers.Number):
+        raise ValidationError(f"Mark has to be a number, {raw} is not valid")
+    if raw < 1:
+        raise ValidationError("Mark has to be larger or equal to 1")
+    if raw > 6:
+        raise ValidationError("Mark is not allowed to be larger than 6")
+    return raw
 
 
 def get_student_semester(student: Student, semester: Semester):

@@ -50,6 +50,9 @@ class StudentRepository(Protocol):
         self, student_id: int, semester_id: int, subject_id: int, mark: float
     ) -> Student: ...
     def get_semester_of_student(self, student_id: int, semester_id: int) -> StudentSemester: ...
+    def get_semesters_of_student(self, student_id: int) -> list[StudentSemester]: ...
+    def get_subjects_of_student_semester(self, student_semester_id) -> list[StudentSubject]: ...
+    
 
     def healty(self) -> bool: ...
 
@@ -246,6 +249,22 @@ class InMemoryStudentRepository:
             raise ValidationError(f"Student {student_id} is not in Semester {semester_id}")
 
         return student_semster
+    
+    def get_semesters_of_student(self, student_id: int) -> list[StudentSemester]:
+        student = self._students.get(student_id)
+        if not student:
+            raise NotFoundError(f"No Student with ID {student_id} found")
+
+        return student.student_semesters
+    
+    def get_subjects_of_student_semester(self, student_semester_id: int) -> list[StudentSubject]:
+        students = self._students.values()
+        for student in students:
+            for student_semester in student.student_semesters:
+                if student_semester.student_semester_id == student_semester_id:
+                    return student_semester.student_subjects
+        return None
+            
 
     def healthy(self) -> bool:
         return True
@@ -333,6 +352,34 @@ class PostgresStudentRepository:
             raise ValidationError(f"Student {student_id} is not in Semester {semester_id}")
 
         return student_semster
+    
+    def get_semesters_of_student(self, student_id: int) -> list[StudentSemester]:
+        student = self.get_student(student_id)
+        
+        if not student:
+            raise NotFoundError(f"No Student with ID {student_id} found")
+        
+        with self._pool.connection() as conn:
+            rows = conn.execute(
+                "SELECT student_semester_id, semester_fk, student_fk FROM STUDENT_SEMESTER "+ 
+                "WHERE student_fk = %s ",
+                 (student_id,)
+            ).featchall()
+
+
+        return [StudentSemester(*row) for row in rows]
+    
+    def get_subjects_of_student_semester(self, student_semester_id: int) -> list[StudentSubject]:
+        
+        with self._pool.connection() as conn:
+            rows = conn.execute(
+                "SELECT student_subject_id, subject_fk, student_semester_fk, mark " +
+                "FROM STUDENT_SUBJECT WHERE student_semester_fk = %s", 
+                (student_semester_id,)
+            ).fetchall()
+        
+        return [StudentSubject(*row) for row in rows]
+
 
     def add_student(self, firstname: str, lastname: str) -> Student:
         with self._pool.connection() as conn:
@@ -424,7 +471,7 @@ class PostgresStudentRepository:
 
         student_semester.student_subjects.append(student_subject)
 
-        return Student
+        return student
 
     def set_mark_student_subject(
         self, student_id: int, semester_id: int, subject_id: int, mark: float
